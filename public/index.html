@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinder</title>
+    <style>
+        /* Body and background settings */
+        html, body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width : 100%;
+            color: #333;
+            position: relative; /* Needed for positioning the pseudo-element */
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        /* Light overlay and background blur */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('back.jpg');
+            background-repeat: no-repeat;
+            background-size: cover; /* Ensure the image covers the screen */
+            background-position: center; /* Keeps the image centered */
+            filter: blur(1px); /* Apply 1px blur to the background */
+            z-index: -1; /* Ensure it stays behind the content */
+        }
+
+        /* Header section with logos and title */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 99%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 15px;
+            background-color: rgb(255, 255, 255);
+            z-index: 10;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+            color: #000000; /* Blue color for header text */
+        }
+
+        /* Main content container */
+        .content {
+            display: flex;
+            margin-top: 100px;
+            justify-content: space-between;
+            width: 98%;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Left side (input section) */
+        .input-section {
+            width: 40%; /* Set the width to 40% */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Right side (iframe section) */
+        .iframe-section {
+            width: 60%; /* Set the width to 60% */
+            height: 700px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Label and input styling */
+        label {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #444; /* Slightly dark color for better readability */
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Light Grey Button */
+        button {
+            background-color: #d3d3d3; /* Light grey background */
+            border: 1px solid #ccc; /* Slightly darker border */
+            color: #333; /* Dark text color */
+            font-size: 1.2em;
+            padding: 12px 25px; /* Larger padding for better clickability */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        /* Hover Effect */
+        button:hover {
+            background-color: #b0b0b0; /* Darker grey when hovered */
+            border-color: #999; /* Darker border on hover */
+        }
+
+        /* Focus Effect */
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add focus shadow */
+        }
+
+        /* Active State */
+        button:active {
+            background-color: #a0a0a0; /* Even darker grey when clicked */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .input-section, .iframe-section {
+                width: 100%;
+                max-width: none;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="socs.jpg" alt="SOCS Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        
+        <h1>Pathfinder</h1>
+
+        <div class="logo">
+            <img src="logo.png" alt="UPES Logo" style="width: 100%; height: 100%; object-fit: contain; border: 10%;">
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="input-section">
+            <div class="input-row">
+                <label>Some Main Nodes of UPES : For Main Gate : 0, For Hubble : 231, For MAC and GYM : 11, For Enrollment Office : 5, 
+                    For 1st Block : 56, For 2nd Block : 75, For 3rd Block : 73, For 4th Block : 83, 
+                    For 5th Block : 87, For 6th Block : 98, For 7th Block : 94, For 8th Block : 94, 
+                    For 9th Block : 182, For 10th Block : 190, For 11th Block : 214, For Boys Hostel : 157, 
+                    For Laboratory : 153, For Gandhi Chock : 23, For Tulip : 162, For Amphiteather 1 : 62, 
+                    For Amphiteather 2 : 186, For Amphiteather 3 : 142, For IT Tower : 92, For Library : 91, 
+                    For Food Court 1 : 70, For Food Court 2 : 101, For Girls Hostel : 137, For Playground area : 128, 
+                    For Team Orange : 121, For Frisco : 223</label>
+                <label for="start">Enter Start Node:</label>
+                <input type="number" id="start" placeholder="Start Node" required>
+        
+                <label for="end">Enter End Node:</label>
+                <input type="number" id="end" placeholder="End Node" required>
+        
+                <label for="transport">Enter 1 for walkway and 0 for carway:</label>
+                <input type="number" id="transport" placeholder="Walkable Condition" required>
+        
+                <label for="weather_type">Enter 1 for rainy season and 0 for dry season:</label>
+                <input type="number" id="weather_type" placeholder="Weather Condition" required>
+            </div>
+            
+            <button onclick="findPath()">Find Path</button>
+            <pre id="result"></pre>
+        </div>
+
+        <div class="iframe-section">
+            <iframe src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=map.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D171xulnOF_PPoJiUedJFNzo2fvHjre73P%26export%3Ddownload"></iframe>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

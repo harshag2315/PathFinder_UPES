@@ -1,0 +1,10 @@
+To run over terminal you should have node and C++ Compiler available in the system
+
+So steps after node is already there-> 
+1. cd path/to/pathfinder-project
+2. g++ -o pathfindex.exe pathfinder.cpp
+3. npm init -y
+4. npm install express
+5. node server.js
+
+Open Chrome and type - https://localhost:3001
